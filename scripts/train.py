@@ -5,7 +5,7 @@ import logging
 import sys
 import argparse
 import os
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from transformers import AutoModelForSequenceClassification, AutoTokenizer, BertTokenizerFast, BertForSequenceClassification
 from transformers import Trainer, TrainingArguments
 from datasets import load_from_disk
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
@@ -29,6 +29,12 @@ if __name__ == "__main__":
     parser.add_argument("--n_gpus", type=str, default=os.environ["SM_NUM_GPUS"])
     parser.add_argument("--training_dir", type=str, default=os.environ["SM_CHANNEL_TRAIN"])
     parser.add_argument("--test_dir", type=str, default=os.environ["SM_CHANNEL_TEST"])
+    
+#     parser.add_argument("--output-data-dir", type=str, default="/opt/ml/output")
+#     parser.add_argument("--model-dir", type=str, default="/opt/ml/model")
+#     parser.add_argument("--n_gpus", type=str, default=1)
+#     parser.add_argument("--training_dir", type=str, default="/opt/ml/input/data/train")
+#     parser.add_argument("--test_dir", type=str, default="/opt/ml/input/data/test")
 
     args, _ = parser.parse_known_args()
 
@@ -44,7 +50,7 @@ if __name__ == "__main__":
     # load datasets
     train_dataset = load_from_disk(args.training_dir)
     test_dataset = load_from_disk(args.test_dir)
-
+    print("debug:",train_dataset['labels'][0])
     logger.info("loaded train_dataset length is: %s", len(train_dataset))
     logger.info("loaded test_dataset length is: %s", len(test_dataset))
 
@@ -52,13 +58,16 @@ if __name__ == "__main__":
         """Compute metrics function for binary classification"""
         labels = pred.label_ids
         preds = pred.predictions.argmax(-1)
-        precision, recall, f_1, _ = precision_recall_fscore_support(labels, preds, average="binary")
+        precision, recall, f_1, _ = precision_recall_fscore_support(labels, preds)
         acc = accuracy_score(labels, preds)
-        return {"accuracy": acc, "f1": f_1, "precision": precision, "recall": recall}
+        return {"accuracy": acc, "f1": f_1.tolist(), "precision": precision.tolist(), "recall": recall.tolist()}
 
     # download model and tokenizer from model hub
-    model = AutoModelForSequenceClassification.from_pretrained(args.model_name)
-    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
+#     model = AutoModelForSequenceClassification.from_pretrained(args.model_name)
+    model = BertForSequenceClassification.from_pretrained(
+    'bert-base-chinese', num_labels=15)
+    tokenizer = BertTokenizerFast.from_pretrained('bert-base-chinese')
+#     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
 
 
     # define training args
