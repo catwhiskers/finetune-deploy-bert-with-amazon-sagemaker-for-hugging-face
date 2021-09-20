@@ -1,4 +1,4 @@
-# This fork aims demonstrating how to use Hugging Face to perform chinese document classification 
+## This fork aims on demonstrating how to use Hugging Face to perform chinese document classification 
 ### The model used is bert-base-chinese. developed by [CKIP Lab](https://ckip.iis.sinica.edu.tw/). [Here](https://github.com/ckiplab/ckip-transformers) is the github link 
 
 
