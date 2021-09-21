@@ -1,3 +1,7 @@
+## This fork aims on demonstrating how to use Hugging Face to perform chinese document classification 
+### The model used is bert-base-chinese. developed by [CKIP Lab](https://ckip.iis.sinica.edu.tw/). [Here](https://github.com/ckiplab/ckip-transformers) is the github link 
+
+
 # Finetuning Hugging Face DistilBERT with Amazon Reviews Polarity dataset.
 
 In this demo, we will use the Hugging Faces `transformers` and `datasets` library with Amazon SageMaker to fine-tune a pre-trained transformer on binary text classification. In particular, we will use the pre-trained DistilBERT model with the Amazon Reviews Polarity dataset.
