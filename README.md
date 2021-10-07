@@ -7,7 +7,7 @@
 * Open terminal 
 * `cd ~/SageMaker`
 * `git clone https://github.com/catwhiskers/finetune-deploy-bert-with-amazon-sagemaker-for-hugging-face.git`
-* Execute [this notebook] (https://github.com/catwhiskers/finetune-deploy-bert-with-amazon-sagemaker-for-hugging-face/blob/main/finetune-bert-chinese.ipynb) 
+* Execute [this notebook](https://github.com/catwhiskers/finetune-deploy-bert-with-amazon-sagemaker-for-hugging-face/blob/main/finetune-bert-chinese.ipynb) 
   it will do data fetching, data processing, training job submission and setting up a endpoint for inference
 
 
